@@ -57,7 +57,12 @@ stages:
         csmParametersFile: "$(Build.SourcesDirectory)/ARMTemplateParametersForFactory.json"
 
         overrideParameters: >
-          -factoryName "denispadfuat"
+          -factoryName "denis-adf-uat"
+          -LS_ADLS_account "denispadlsuat"
+          -LS_ADLS_fileSystem "project"
+          -adls2adf_ls_accountKey "$(uat_adls_account_key)"
+          -adls2adf_ls_properties_typeProperties_url "https://denispadlsuat.dfs.core.windows.net/"
+
 
         deploymentMode: Incremental
 
@@ -91,6 +96,10 @@ stages:
         csmParametersFile: "$(Build.SourcesDirectory)/ARMTemplateParametersForFactory.json"
 
         overrideParameters: >
-          -factoryName "denispadfprod"
+          -factoryName "denis-adf-prd"
+          -LS_ADLS_account "denispadlsprod"
+          -LS_ADLS_fileSystem "project"
+          -adls2adf_ls_accountKey "$(prod_adls_account_key)"
+          -adls2adf_ls_properties_typeProperties_url "https://denispadlsprod.dfs.core.windows.net/"
 
         deploymentMode: Incremental
