@@ -4,7 +4,7 @@ trigger:
       - main
 
 pool:
-  name: SelfPool
+  vmImage: 'windows-latest'
 
 stages:
 
@@ -45,7 +45,7 @@ stages:
     - task: AzureResourceGroupDeployment@2
       displayName: "Deploy ARM Template to UAT Data Factory"
       inputs:
-        azureSubscription: "UATPRODConn"
+        azureSubscription: "DEVUATPRODConn"
         action: "Create Or Update Resource Group"
         resourceGroupName: "mde-mar-rg"
         location: "East US"
@@ -58,6 +58,11 @@ stages:
 
         overrideParameters: >
           -factoryName "denispadfuat"
+          -LS_ADLS_account "denispadlsuat"
+          -LS_ADLS_fileSystem "project"
+          -adls2adf_ls_accountKey "$(uat_adls_account_key)"
+          -adls2adf_ls_properties_typeProperties_url "https://denispadlsuat.dfs.core.windows.net/"
+
 
         deploymentMode: Incremental
 
@@ -79,7 +84,7 @@ stages:
     - task: AzureResourceGroupDeployment@2
       displayName: "Deploy ARM Template to PROD Data Factory"
       inputs:
-        azureSubscription: "UATPRODConn"
+        azureSubscription: "DEVUATPRODConn"
         action: "Create Or Update Resource Group"
         resourceGroupName: "mde-mar-rg"
         location: "East US"
@@ -92,5 +97,9 @@ stages:
 
         overrideParameters: >
           -factoryName "denispadfprod"
+          -LS_ADLS_account "denispadlsprod"
+          -LS_ADLS_fileSystem "project"
+          -adls2adf_ls_accountKey "$(prod_adls_account_key)"
+          -adls2adf_ls_properties_typeProperties_url "https://denispadlsprod.dfs.core.windows.net/"
 
         deploymentMode: Incremental
